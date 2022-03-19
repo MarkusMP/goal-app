@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+  api:
+    build: .
+    container_name: api
+    ports:
+      - 5000:5000
+    command: npm run dev
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - ./nodemon.json:/app/nodemon.json
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    container_name: db
+  db_test:
+    image: postgres
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    ports:
+      - 1234:5432
+    container_name: db_test
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    container_name: client
+volumes:
+  db-data:

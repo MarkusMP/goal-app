@@ -1,0 +1,41 @@
+[
+  {
+    "name": "development",
+    "type": "postgres",
+    "host": "db",
+    "port": 5432,
+    "username": "admin",
+    "password": "secret",
+    "database": "postgres",
+    "synchronize": true,
+    "logging": false,
+    "entities": ["backend/entities/**/*.{ts,js}"],
+    "migrations": ["backend/migration/**/*.{ts,js}"],
+    "subscribers": ["backend/subscriber/**/*.{ts,js}"],
+    "cli": {
+      "entitiesDir": "backend/entities",
+      "migrationsDir": "backend/migration",
+      "subscribersDir": "backend/subscriber"
+    }
+  },
+  {
+    "name": "test",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 1234,
+    "username": "test",
+    "password": "test",
+    "database": "test",
+    "synchronize": true,
+    "logging": false,
+    "dropSchema": true,
+    "entities": ["backend/entities/**/*.{ts,js}"],
+    "migrations": ["backend/migration/**/*.{ts,js}"],
+    "subscribers": ["backend/subscriber/**/*.{ts,js}"],
+    "cli": {
+      "entitiesDir": "backend/entities",
+      "migrationsDir": "backend/migration",
+      "subscribersDir": "backend/subscriber"
+    }
+  }
+]
