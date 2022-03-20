@@ -10,7 +10,7 @@
     "client": "npm start --prefix frontend",
     "dev": "cross-env NODE_ENV=development nodemon -L backend/index.ts",
     "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
-    "heroku-postbuild": "npm run tsc && NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "npm run tsc && NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
