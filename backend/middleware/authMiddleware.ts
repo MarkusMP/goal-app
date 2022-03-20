@@ -33,12 +33,14 @@ const protect = async (
       console.log(error);
       res.status(401);
       res.json({ message: "Not authorized" });
+      return;
     }
   }
 
   if (!token) {
     res.status(401);
     res.json({ message: "Not authorized" });
+    return;
   }
 };
 

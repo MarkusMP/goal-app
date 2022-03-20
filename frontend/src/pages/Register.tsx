@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { register, reset } from "../features/auth/authSlice";
+import Spinner from "../components/Spinner";
 
 const Register = () => {
   const [formdata, setFormdata] = useState({
@@ -11,6 +16,24 @@ const Register = () => {
 
   const { name, email, password, password2 } = formdata;
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useAppSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormdata((prevState) => ({
       ...prevState,
@@ -20,7 +43,26 @@ const Register = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!name && !email && !password && !password2) {
+      toast.error("Please fill all the fields");
+    } else if (password !== password2) {
+      toast.error("Passwords do not match");
+    } else {
+      const userData = {
+        name,
+        email,
+        password,
+      };
+
+      dispatch(register(userData));
+    }
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <section className="heading">
@@ -32,6 +74,7 @@ const Register = () => {
       <section className="form">
         <form onSubmit={onSubmit}>
           <div className="form-group">
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               className="form-control"
@@ -43,6 +86,7 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               className="form-control"
@@ -54,6 +98,7 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               className="form-control"
@@ -65,6 +110,7 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="password2">Confirm Password</label>
             <input
               type="password"
               className="form-control"
