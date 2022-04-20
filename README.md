@@ -11,6 +11,7 @@ This was build with
           <li>Typescript</li>
           <li>React</li>
       <li>Redux</li>
+    <li>Docker</li>
   <li>Jest</li>
   <li>React Testing Library</li>
  </ul>
